@@ -1,12 +1,20 @@
-import React from 'react';
-import { Button,Text } from 'native-base'; 
+import React, { Component }from 'react';
+import { Button, Text, View } from 'native-base'; 
 
-const LoginScreen = () => {
-    return(
-        <Button>
-            <Text>Hello World</Text>
-        </Button>
-    );
+import { InputText }from '../../components';
+import { styles } from './styles/';
+
+class LoginScreen extends Component {
+    render() {
+        return(
+            <View>
+                <InputText floatingLabel styleInput={ styles.inputUser } styleLabel={ styles.InputLabel } label='User Name'/>
+                <Button>
+                    <Text>Hello World</Text>
+                </Button>
+            </View>
+        );
+    }
 }
 
-export default LoginScreen;
+export default LoginScreen; 

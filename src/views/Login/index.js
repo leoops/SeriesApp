@@ -1,7 +1,7 @@
-import LoginNavigationOptions from "./LoginNavigationOptions";
-import LoginScreen from './LoginScreen';
+import LoginScreen from './LoginScreen'
+import { LoginNavigationOptions } from './LoginNavigationOptions'
 
-export default Login = {
-    screem: LoginScreen,
-    naigationOptions : LoginNavigationOptions
+export const Login = {
+    screen: LoginScreen,
+    navigationOptions: LoginNavigationOptions,
 }
