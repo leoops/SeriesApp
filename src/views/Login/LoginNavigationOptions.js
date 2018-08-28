@@ -1,5 +1,5 @@
 const LoginNavigationOptions = {
-    title: 'Login'
+    title: 'Login',
 }
 
 export default LoginNavigationOptions

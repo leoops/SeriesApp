@@ -3,8 +3,11 @@ import { Item, Input, Label } from 'native-base';
 
 export const InputText = ({ 
     label, 
+    onChangeText,
+    value='',
     floatingLabel = false,
     fixedLabel = false,
+    security = false,
     styleInput = {},
     styleLabel = {},
 }) => {
@@ -14,7 +17,11 @@ export const InputText = ({
             floatingLabel={floatingLabel}
             fixedLabel={fixedLabel} >
             <Label style={styleLabel} >{label}</Label>
-            <Input />
+            <Input 
+                secureTextEntry={security}
+                value={value}
+                onChangeText={onChangeText}
+             />
         </Item>
     );
 }
