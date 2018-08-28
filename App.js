@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Routes from './src/Routes';
 import { Font, AppLoading } from "expo";
+import { Root } from 'native-base';
 
 class App extends Component {
   constructor(props){
@@ -21,7 +22,9 @@ class App extends Component {
       return <AppLoading/>
     }
     return (
-      <Routes />
+      <Root>
+        <Routes />
+      </Root>
     );
   }
 }

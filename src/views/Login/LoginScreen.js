@@ -1,5 +1,5 @@
 import React, { Component }from 'react';
-import { Button, Text, View } from 'native-base'; 
+import { Button, Text, View, Spinner, Toast } from 'native-base'; 
 import firebase  from "firebase";
 
 import { InputText }from '../../components';
@@ -11,6 +11,7 @@ class LoginScreen extends Component {
         this.state = {
             email: '',
             password: '',
+            loadingLogin: false,
         }
     }
     componentDidMount(){
@@ -23,14 +24,6 @@ class LoginScreen extends Component {
             messagingSenderId: "934846310520"
           };
           firebase.initializeApp(config);
-          firebase
-          .auth()
-          .signInWithEmailAndPassword('user@mail.com','123123')
-          .then( user => {
-              console.log(user);
-          })
-
-         
     }
     onChangeHandler(fieldName, value) {
         this.setState({
@@ -39,7 +32,38 @@ class LoginScreen extends Component {
     }
 
     tryLogin(){
-        console.log(this.state)
+        const { email, password } = this.state;
+        this.setState({ loadingLogin : true})
+        firebase
+          .auth()
+          .signInWithEmailAndPassword( email, password )
+          .then( user => {
+              this.renderToastMessage('Cadastro realizado com sucesso', 'OK', 'success')
+          })
+          .catch( error => {
+              
+            this.renderToastMessage(error.message, 'OK', 'warning')
+          })
+          .then( () => this.setState({ loadingLogin : false}))
+    }
+    renderToastMessage(message, nameButton, type, duration = 5000, position ){
+        Toast.show({
+            text: message,
+            buttonText: nameButton,
+            position,
+            type,
+            duration,
+        })
+    }
+    renderLoad(){
+        const {loadingLogin} = this.state;
+        if(loadingLogin)
+            return <Spinner color='blue'/>
+        return (
+            <Button style={ styles.button } onPress={() => this.tryLogin()}>
+                    <Text> Entrar </Text>
+            </Button>
+        );
     }
 
     render() {
@@ -66,10 +90,9 @@ class LoginScreen extends Component {
                     styleLabel={ styles.InputLabel } 
                     label='Password'
                 />
+                {this.renderLoad()}
 
-                <Button style={ styles.button } onPress={() => this.tryLogin()}>
-                    <Text> Entrar </Text>
-                </Button>
+                
                 
             </View>
         );
