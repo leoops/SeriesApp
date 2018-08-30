@@ -1,9 +1,9 @@
 import React, { Component }from 'react';
-import { Button, Text, View, Spinner, Toast } from 'native-base'; 
+import { View, Spinner, Toast } from 'native-base'; 
 import firebase  from "firebase";
 
-import { InputText }from '../../components';
 import { styles } from './styles/';
+import { ButtonGroup, Button, ButtonLoadable, Input } from '../../components';
 
 class LoginScreen extends Component {
     constructor(props){
@@ -25,27 +25,14 @@ class LoginScreen extends Component {
           };
           firebase.initializeApp(config);
     }
+    
     onChangeHandler(fieldName, value) {
         this.setState({
             [fieldName]: value,
         })
     }
 
-    tryLogin(){
-        const { email, password } = this.state;
-        this.setState({ loadingLogin : true})
-        firebase
-          .auth()
-          .signInWithEmailAndPassword( email, password )
-          .then( user => {
-              this.renderToastMessage('Cadastro realizado com sucesso', 'OK', 'success')
-          })
-          .catch( error => {
-              
-            this.renderToastMessage(error.message, 'OK', 'warning')
-          })
-          .then( () => this.setState({ loadingLogin : false}))
-    }
+    
     renderToastMessage(message, nameButton, type, duration = 5000, position ){
         Toast.show({
             text: message,
@@ -55,22 +42,43 @@ class LoginScreen extends Component {
             duration,
         })
     }
-    renderLoad(){
-        const {loadingLogin} = this.state;
-        if(loadingLogin)
-            return <Spinner color='blue'/>
-        return (
-            <Button style={ styles.button } onPress={() => this.tryLogin()}>
-                    <Text> Entrar </Text>
-            </Button>
-        );
+
+    tryLogin(){
+        const { email, password } = this.state;
+        this.setState({ loadingLogin : true})
+        firebase
+            .auth()
+            .signInWithEmailAndPassword( email, password )
+            .then( user => {
+                this.renderToastMessage('Login realizado com sucesso', 'OK', 'success')
+                //this.props.navigation.navigate('');
+            })
+            .catch( error => {
+                this.renderToastMessage(error.code, 'OK', 'warning')
+                this.createUser(email, password)
+            })
+            .then( () => this.setState({ loadingLogin : false}))
     }
+
+    createUser(email, password) {
+        firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(user => {
+                this.renderToastMessage('Cadastro realizado com sucesso', 'OK', 'success')
+            })
+            .catch( error => {
+                this.renderToastMessage(error.code, 'OK', 'warning')
+            })
+    }
+
+    
 
     render() {
         return(
-            <View style={ styles.container }>
 
-                <InputText 
+            <View style={ styles.container }>
+                <Input 
                     floatingLabel 
                     styleInput={ styles.inputUser } 
                     styleLabel={ styles.InputLabel } 
@@ -79,7 +87,7 @@ class LoginScreen extends Component {
                         this.onChangeHandler("email", value)
                     }}
                     label='Email'/>
-                <InputText 
+                <Input 
                     floatingLabel 
                     security 
                     value={this.state.password}
@@ -90,13 +98,41 @@ class LoginScreen extends Component {
                     styleLabel={ styles.InputLabel } 
                     label='Password'
                 />
-                {this.renderLoad()}
+                <ButtonGroup row center>
+                    <Button 
+                        icon='logo-facebook'
+                        circle
+                        onPress={() => {}}
+                    />
 
-                
-                
+                    < ButtonLoadable 
+                        icon='log-in'
+                        circle
+                        active = {this.state.loadingLogin}
+                        onPress={() => this.tryLogin()}
+                    />
+                    
+                    <Button 
+                        icon='logo-google'
+                        circle
+                        onPress={() => {}}
+                    />
+                </ButtonGroup>
+                <ButtonGroup center>
+                    <Button 
+                        label='Cadastrar'
+                        text
+                        onPress={() => {}}
+                    />
+                    <Button 
+                        label='Esqueci minha senha'
+                        text
+                        onPress={() => {}}
+                    />
+                </ButtonGroup>
             </View>
         );
     }
 }
 
-export default LoginScreen; 
+export default LoginScreen;

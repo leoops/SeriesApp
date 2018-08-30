@@ -1,7 +1,10 @@
 import React from 'react';
-import { Item, Input, Label } from 'native-base';
+import { 
+    Item, 
+    Input as InputNB, 
+    Label } from 'native-base';
 
-export const InputText = ({ 
+export const Input = ({ 
     label, 
     onChangeText,
     value='',
@@ -17,7 +20,7 @@ export const InputText = ({
             floatingLabel={floatingLabel}
             fixedLabel={fixedLabel} >
             <Label style={styleLabel} >{label}</Label>
-            <Input 
+            <InputNB 
                 secureTextEntry={security}
                 value={value}
                 onChangeText={onChangeText}

@@ -1,7 +1,15 @@
 import React, { Component } from 'react';
-import Routes from './src/Routes';
 import { Font, AppLoading } from "expo";
+import { Provider } from 'react-redux'
+import { createStore } from 'redux';
 import { Root } from 'native-base';
+
+import devToolsEnhancer from "remote-redux-devtools";
+
+import Routes from './src/Routes';
+import rootReducer from './src/store';
+
+const store = createStore(rootReducer, devToolsEnhancer()); 
 
 class App extends Component {
   constructor(props){
@@ -23,7 +31,9 @@ class App extends Component {
     }
     return (
       <Root>
-        <Routes />
+        <Provider store={store}>
+          <Routes />
+        </Provider>
       </Root>
     );
   }

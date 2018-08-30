@@ -4,9 +4,14 @@ export const styles = {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 5,
+        margin: 10,
 
     },
+    buttonLine: {
+        flex: 1,
+        justifyContent: 'center',
+    },
+
     inputUser : {
         marginBottom: 5,
         marginTop: 5,
