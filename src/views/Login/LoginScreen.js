@@ -1,9 +1,11 @@
-import React, { Component }from 'react';
-import { View, Spinner, Toast } from 'native-base'; 
 import firebase  from "firebase";
+import { View, Toast } from 'native-base'; 
+import React, { Component }from 'react';
+import { connect } from "react-redux";
 
 import { styles } from './styles/';
 import { ButtonGroup, Button, ButtonLoadable, Input } from '../../components';
+import { tryLogin, createUser } from '../../store/actions/userActions';
 
 class LoginScreen extends Component {
     constructor(props){
@@ -45,31 +47,14 @@ class LoginScreen extends Component {
 
     tryLogin(){
         const { email, password } = this.state;
+
         this.setState({ loadingLogin : true})
-        firebase
-            .auth()
-            .signInWithEmailAndPassword( email, password )
-            .then( user => {
-                this.renderToastMessage('Login realizado com sucesso', 'OK', 'success')
-                //this.props.navigation.navigate('');
-            })
-            .catch( error => {
-                this.renderToastMessage(error.code, 'OK', 'warning')
-                this.createUser(email, password)
-            })
-            .then( () => this.setState({ loadingLogin : false}))
+        this.props.tryLogin({ email, password })
+        this.setState({ loadingLogin : false})
     }
 
     createUser(email, password) {
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then(user => {
-                this.renderToastMessage('Cadastro realizado com sucesso', 'OK', 'success')
-            })
-            .catch( error => {
-                this.renderToastMessage(error.code, 'OK', 'warning')
-            })
+        this.props.createUser({ email, password })
     }
 
     
@@ -135,4 +120,7 @@ class LoginScreen extends Component {
     }
 }
 
-export default LoginScreen;
+export default connect( null, { 
+    tryLogin,
+    createUser,
+} )(LoginScreen);

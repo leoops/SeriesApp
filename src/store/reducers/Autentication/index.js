@@ -1,1 +1,1 @@
-export * from './autenticationReducer';
+export * from './user';

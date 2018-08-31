@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
 import { Font, AppLoading } from "expo";
 import { Provider } from 'react-redux'
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import reduxThunk from 'redux-thunk'
 import { Root } from 'native-base';
 
-import devToolsEnhancer from "remote-redux-devtools";
+import { composeWithDevTools } from "remote-redux-devtools";
 
 import Routes from './src/Routes';
 import rootReducer from './src/store';
 
-const store = createStore(rootReducer, devToolsEnhancer()); 
+const store = createStore(rootReducer, composeWithDevTools(
+  applyMiddleware(reduxThunk)
+))
 
 class App extends Component {
   constructor(props){
