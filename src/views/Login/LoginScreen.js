@@ -4,6 +4,7 @@ import React, { Component }from 'react';
 import { connect } from "react-redux";
 
 import { styles } from './styles/';
+import { renderToastMessage, firebaseLoginErrorCodeMessageReturn } from "../../utils";
 import { ButtonGroup, Button, ButtonLoadable, Input } from '../../components';
 import { tryLogin, createUser } from '../../store/actions/userActions';
 
@@ -34,23 +35,21 @@ class LoginScreen extends Component {
         })
     }
 
-    
-    renderToastMessage(message, nameButton, type, duration = 5000, position ){
-        Toast.show({
-            text: message,
-            buttonText: nameButton,
-            position,
-            type,
-            duration,
-        })
-    }
-
     tryLogin(){
         const { email, password } = this.state;
 
         this.setState({ loadingLogin : true})
+
         this.props.tryLogin({ email, password })
-        this.setState({ loadingLogin : false})
+        .then( () => {
+            return this.props.navigation.replace('Main');
+        })
+        .catch( error => {
+            this.setState({ loadingLogin : false})
+            return renderToastMessage( firebaseLoginErrorCodeMessageReturn(error.code) , 'ok', 'warning');
+        })
+        
+        
     }
 
     createUser(email, password) {

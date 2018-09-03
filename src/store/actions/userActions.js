@@ -20,20 +20,20 @@ const createNewUser = user => {
 
 export const tryLogin = ({ email, password }) => dispatch => {
 
-    firebase
-        .auth()
-        .signInWithEmailAndPassword( email, password )
-        .then( user => {
-            dispatch(userLoginSuccess(user))
-        })
+     return firebase
+            .auth()
+            .signInWithEmailAndPassword( email, password )
+            .then( user => {
+                dispatch(userLoginSuccess(user))
+            })
 }
 
 export const createUser = ({ email, password }) => dispatch => {
 
-    firebase
-        .auth()
-        .createUserWithEmailAndPassword( email, password ).dispatch
-        .then( user => {
-            dispatch(createNewUser( user ))
-        })
+     return firebase
+            .auth()
+            .createUserWithEmailAndPassword( email, password ).dispatch
+            .then( user => {
+                dispatch(createNewUser( user ))
+            })
 }
