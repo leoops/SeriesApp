@@ -1,20 +1,24 @@
 import React  from 'react';
-import { Card } from 'native-base';
-imort
+import { View, Card } from 'native-base';
+import { CardImage } from '../CardImage';
 
-export const CardList = ({}) => {
+export const CardList = ({ items, icon, onPress }) => {
     return(
-        <Card 
-            dataArray={items}
-            renderRow={(item) =>
-                <CardItem 
-                    name={ item.name } 
-                    rate={ item.rate }
-                    gender={ item.gender }
-                    uri = { item.uri } 
-                />
-            }   
-        >
-        </Card> 
+        <View>
+            <Card 
+                dataArray={ items }
+                renderRow={( item ) =>
+                    <CardImage 
+                        name={ item.title } 
+                        rate={ item.rate }
+                        gender={ item.gender }
+                        uri = { item.img } 
+                        icon = { icon }
+                        onPress = { onPress }
+                    />
+                }   
+            >
+            </Card> 
+        </View>
     );
 }

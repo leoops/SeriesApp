@@ -1,27 +1,33 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { Card, CardItem, Right, Left, Text, Button, Icon, Body } from 'native-base';
-
+import { styles } from "./styles";
 export const CardImage = ({ 
     uri = {}, 
     name, 
     rate, 
     gender,
+    icon,
+    onPress,
 }) => {
     return(
         <Card>
             <CardItem>
-                <Left>
+                <Body>
                     <Text>{ name }</Text>
-                </Left>
+                </Body>
                 <Right>
-                    <Button transparent>
-                        <Icon active name="favorite" />
+                    <Button transparent
+                        onPress={ onPress }    
+                    >
+                        <Icon active name={ icon }/>
                     </Button>
                 </Right>
             </CardItem>
             <CardItem cardBody>
-                <Image source={{ uri : uri }} style={{height: 200, width: null, flex: 1}}/>
+                <Image 
+                source={{ uri : uri }} 
+                style={ styles.imageCard }/>
             </CardItem>
             <CardItem>
                 <Body>
